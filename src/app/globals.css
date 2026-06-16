@@ -1,26 +1,111 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #D62828;
+  --color-secondary: #F77F00;
+  --color-accent: #FCBF49;
+  --color-dark: #1D1D1D;
+  --color-light: #F8F9FA;
+  
+  --color-muted: var(--text-muted);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #1a0404;
+  --foreground: #F8F9FA;
+  --card-bg: rgba(10, 10, 10, 0.80);
+  --card-border: rgba(214, 40, 40, 0.18);
+  --text-muted: #c0a0a0;
+  --nav-bg: rgba(20, 4, 4, 0.60);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #0f0202;
+  --foreground: #F8F9FA;
+  --card-bg: rgba(0, 0, 0, 0.88);
+  --card-border: rgba(214, 40, 40, 0.22);
+  --text-muted: #b08888;
+  --nav-bg: rgba(12, 2, 2, 0.65);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(120, 10, 10, 0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(100, 8, 8, 0.20) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 60%, rgba(80, 5, 5, 0.15) 0%, transparent 70%);
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(90, 6, 6, 0.40) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(70, 4, 4, 0.25) 0%, transparent 70%);
+}
+
+/* Glassmorphism helpers */
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+}
+
+.glass-nav {
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--card-border);
+}
+
+/* Custom Hide Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Cinema background helper */
+.cinema-dark {
+  background-color: #0b0b0c;
+  color: #f8f9fa;
+}
+
+.cinema-card {
+  background: rgba(25, 25, 27, 0.8);
+  border: 1px solid rgba(252, 191, 73, 0.15);
+}
+.cinema-card:hover {
+  border-color: rgba(252, 191, 73, 0.4);
+}
+
+/* Hero ambient light streak animation */
+@keyframes gradient-shift {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Floating particle drift */
+@keyframes float-particle {
+  0%   { transform: translateY(0px) translateX(0px); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 0.6; }
+  100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
+}
+
+/* Cinematic hero zoom-in — plays once on load (Apple/Tesla style) */
+@keyframes hero-zoom {
+  0%   { transform: scale(1.08); }
+  100% { transform: scale(1.0); }
 }
