@@ -171,49 +171,49 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile Navigation Drawer */}
-        {isOpen && (
-          <div className="md:hidden fixed inset-y-0 left-0 right-0 w-full max-w-full z-30 bg-neutral-900/40 backdrop-blur-md pt-[60px] overflow-hidden">
-            <div className="glass h-full w-3/4 max-w-sm ml-auto flex flex-col justify-between py-6 px-6 shadow-2xl border-l border-white/10 overflow-y-auto">
-              <div className="flex flex-col gap-3">
-                {navLinks.map((link) => {
-                  const isActive = pathname === link.href;
-                  return (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      className={`flex items-center justify-between py-3 px-4 rounded-xl text-base font-bold transition-all duration-200 ${
-                        isActive
-                          ? 'bg-primary text-white shadow-md'
-                          : 'text-neutral-100 hover:bg-red-900/50'
-                      }`}
-                    >
-                      <span>{link.name}</span>
-                      <ChevronRight className="w-4 h-4 opacity-75" />
-                    </Link>
-                  );
-                })}
-              </div>
+      {/* Mobile Navigation Drawer */}
+      {isOpen && (
+        <div className="md:hidden fixed inset-y-0 left-0 right-0 w-full max-w-full z-30 bg-neutral-900/40 backdrop-blur-md pt-[60px] overflow-hidden">
+          <div className="glass h-full w-3/4 max-w-sm ml-auto flex flex-col justify-between py-6 px-6 shadow-2xl border-l border-white/10 overflow-y-auto">
+            <div className="flex flex-col gap-3">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`flex items-center justify-between py-3 px-4 rounded-xl text-base font-bold transition-all duration-200 ${
+                      isActive
+                        ? 'bg-primary text-white shadow-md'
+                        : 'text-neutral-100 hover:bg-red-900/50'
+                    }`}
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight className="w-4 h-4 opacity-75" />
+                  </Link>
+                );
+              })}
+            </div>
 
-              <div className="mt-8 flex flex-col gap-4 border-t border-red-800/40 pt-6">
-                <Link
-                  href="/food-court"
-                  className="bg-secondary text-white text-center font-extrabold py-3.5 rounded-xl uppercase tracking-wider text-xs shadow-md"
-                >
-                  Explore Food Court
-                </Link>
-                <Link
-                  href="/directory"
-                  className="bg-primary text-white text-center font-extrabold py-3.5 rounded-xl uppercase tracking-wider text-xs shadow-md"
-                >
-                  Search Store Directory
-                </Link>
-              </div>
+            <div className="mt-8 flex flex-col gap-4 border-t border-red-800/40 pt-6">
+              <Link
+                href="/food-court"
+                className="bg-secondary text-white text-center font-extrabold py-3.5 rounded-xl uppercase tracking-wider text-xs shadow-md"
+              >
+                Explore Food Court
+              </Link>
+              <Link
+                href="/directory"
+                className="bg-primary text-white text-center font-extrabold py-3.5 rounded-xl uppercase tracking-wider text-xs shadow-md"
+              >
+                Search Store Directory
+              </Link>
             </div>
           </div>
-        )}
-      </nav>
+        </div>
+      )}
 
       {/* Global Interactive Search Overlay */}
       {isSearchOpen && (

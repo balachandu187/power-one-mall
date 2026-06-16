@@ -116,7 +116,4 @@ body {
   100% { transform: scale(1.0); }
 }
 
-/* Temporary debug outlines to identify overflow sources */
-* {
-  outline: 1px solid rgba(255, 0, 0, 0.15) !important;
-}
+

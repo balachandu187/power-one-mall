@@ -200,11 +200,11 @@ export default function Home() {
             />
           </div>
 
-          {/* ── LAYER 2: 60% dark overlay ── */}
-          <div className="absolute inset-y-0 left-0 right-0 w-full bg-black/60" />
+          {/* ── LAYER 2: 45% dark overlay ── */}
+          <div className="absolute inset-y-0 left-0 right-0 w-full bg-black/45" />
 
           {/* Gradient polish — darkens top (for nav) and bottom (for section transition) */}
-          <div className="absolute inset-y-0 left-0 right-0 w-full bg-gradient-to-b from-black/50 via-transparent to-black/70" />
+          <div className="absolute inset-y-0 left-0 right-0 w-full bg-gradient-to-b from-black/40 via-transparent to-black/65" />
         </motion.div>
 
         {/* ── LAYER 2b: Ambient glow — mimics the real building sign lights ── */}

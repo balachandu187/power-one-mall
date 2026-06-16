@@ -27,14 +27,14 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-y-0 left-0 right-0 w-full max-w-full z-50 flex items-center justify-center p-4">
           {/* Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm"
+            className="absolute inset-y-0 left-0 right-0 w-full max-w-full bg-neutral-900/60 backdrop-blur-sm"
           />
 
           {/* Modal Container */}
