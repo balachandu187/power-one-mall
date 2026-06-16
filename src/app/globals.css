@@ -89,11 +89,20 @@ body {
 }
 
 .cinema-card {
-  background: rgba(25, 25, 27, 0.8);
-  border: 1px solid rgba(252, 191, 73, 0.15);
+  background: rgba(14, 2, 2, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(214, 40, 40, 0.15);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(214, 40, 40, 0.05);
+  border-radius: 22px;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .cinema-card:hover {
-  border-color: rgba(252, 191, 73, 0.4);
+  transform: translateY(-12px) scale(1.01);
+  border-color: rgba(247, 127, 0, 0.35);
+  box-shadow: 
+    0 20px 45px -15px rgba(0, 0, 0, 0.8),
+    0 0 35px rgba(214, 40, 40, 0.25);
 }
 
 /* Hero ambient light streak animation */

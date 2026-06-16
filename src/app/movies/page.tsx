@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Play, Clock, Sparkles, MapPin } from 'lucide-react';
+import { Play, Clock, Sparkles, MapPin, Heart, Smile } from 'lucide-react';
 import { MOVIES_DATA, Movie } from '@/data/mockData';
 import Modal from '@/components/ui/Modal';
 import Toast from '@/components/ui/Toast';
@@ -36,6 +36,12 @@ export default function MoviesPage() {
   const handleBookClick = (movie: Movie) => {
     setSelectedMovie(movie);
     setSelectedTime(movie.showTimings[0]); // Default to first timing
+    setSelectedSeats([]);
+  };
+
+  const handleShowTimeClick = (movie: Movie, time: string) => {
+    setSelectedMovie(movie);
+    setSelectedTime(time);
     setSelectedSeats([]);
   };
 
@@ -120,8 +126,8 @@ export default function MoviesPage() {
           <div className="h-1.5 w-16 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mt-4 rounded-full" />
         </div>
 
-        {/* Movie Card Grid / Mobile Carousel */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory pt-4 pb-8 -mt-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:overflow-visible no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 relative z-10">
+        {/* Movie Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 relative z-10">
           {MOVIES_DATA.map((movie) => (
             <motion.div
               key={movie.id}
@@ -129,75 +135,98 @@ export default function MoviesPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ type: 'spring', stiffness: 80, damping: 15 }}
-              className="group cinema-card rounded-3xl overflow-hidden shadow-2xl flex flex-col sm:flex-row transition-all duration-300 hover:shadow-amber-500/5 hover:-translate-y-1 relative w-[85vw] sm:w-[70vw] md:w-full shrink-0 md:shrink snap-center"
+              className="w-full h-full"
             >
-              {/* Poster with Netflix-style Scale/Rotation on Hover */}
-              <motion.div
-                whileHover={{
-                  scale: 1.04,
-                  rotate: -1.8,
-                  boxShadow: '0 0 25px rgba(251, 191, 36, 0.25)',
-                }}
-                transition={{ type: 'spring', stiffness: 180, damping: 16 }}
-                className="relative h-56 sm:h-auto sm:w-2/5 overflow-hidden shrink-0 rounded-2xl border border-white/5"
-              >
-                <Image
-                  src={movie.poster}
-                  alt={movie.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 40vw"
-                  className="object-cover"
-                />
-                <div className="absolute top-4 left-4 bg-amber-400 text-neutral-950 text-[10px] font-black px-2.5 py-1.5 rounded-md uppercase tracking-wider shadow-md">
-                  {movie.rating}
-                </div>
-              </motion.div>
-
-              {/* Movie info details */}
-              <div className="p-6 sm:p-8 flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="text-xl font-bold tracking-tight text-white group-hover:text-amber-400 transition-colors">
-                    {movie.title}
-                  </h3>
+              <div className="group cinema-card overflow-hidden flex flex-col relative w-full h-[660px]">
+                {/* Poster Layer (Top - approx 60.6% height) */}
+                <div className="relative h-[400px] w-full overflow-hidden flex-shrink-0">
+                  <Image
+                    src={movie.poster}
+                    alt={movie.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-108 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                  />
                   
-                  <div className="flex flex-wrap items-center gap-3 text-[11px] font-bold text-neutral-400 mt-2 uppercase tracking-wide">
-                    <span>{movie.genre}</span>
-                    <span>&bull;</span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-amber-400" />
-                      {movie.duration}
-                    </span>
-                    <span>&bull;</span>
-                    <span>{movie.language}</span>
-                  </div>
+                  {/* Cinematic bottom gradient fade to details layer */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e0202] via-[#0e0202]/25 to-transparent opacity-95 pointer-events-none" />
 
-                  <p className="text-xs text-neutral-450 leading-relaxed mt-3 sm:mt-4.5 line-clamp-2 sm:line-clamp-none">
-                    {movie.synopsis}
-                  </p>
-                </div>
-
-                <div className="border-t border-white/10 pt-5 mt-6 flex flex-col gap-4">
-                  <div>
-                    <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Show Timings</p>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {movie.showTimings.map((time) => (
-                        <span
-                          key={time}
-                          className="bg-white/5 border border-white/10 text-neutral-350 font-semibold text-[10px] px-3 py-1.5 rounded-md"
-                        >
-                          {time}
-                        </span>
-                      ))}
+                  {/* Brand / Logo Accent at top-left of Poster (matches reference) */}
+                  <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 pointer-events-none opacity-90">
+                    {/* Small round green & white dot */}
+                    <div className="w-4 h-4 rounded-full bg-emerald-500 border border-white/20 flex items-center justify-center shadow-md">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                    </div>
+                    {/* Three red bars */}
+                    <div className="flex flex-col gap-1 pl-0.5">
+                      <div className="w-7 h-0.5 bg-red-650 shadow" />
+                      <div className="w-5 h-0.5 bg-red-650 shadow" />
+                      <div className="w-6 h-0.5 bg-red-650 shadow" />
                     </div>
                   </div>
-                  
-                  <button
-                    onClick={() => handleBookClick(movie)}
-                    className="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-neutral-950 font-black text-xs uppercase tracking-widest py-3.5 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <Play className="w-4 h-4 fill-neutral-950" />
-                    Book Tickets
-                  </button>
+                </div>
+
+                {/* Details Layer (Bottom - approx 39.4% height) */}
+                <div className="p-6 flex flex-col justify-between h-[260px] bg-[#0e0202]/95 border-t border-white/5 relative z-10 flex-grow">
+                  <div>
+                    {/* Movie Title */}
+                    <h3 className="text-xl font-extrabold tracking-tight text-white group-hover:text-secondary transition-colors duration-300 line-clamp-1">
+                      {movie.title}
+                    </h3>
+                    
+                    {/* Metadata Row: Rating Badge | Language | Duration */}
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="px-2 py-0.5 text-[10px] font-black border border-primary/30 text-primary bg-primary/10 rounded-md tracking-wider">
+                        {movie.rating}
+                      </span>
+                      <span className="text-neutral-400 text-[11px] font-semibold tracking-wide uppercase">
+                        {movie.language.split(', ')[0]}
+                      </span>
+                      <span className="text-neutral-600 text-xs font-bold">•</span>
+                      <span className="text-neutral-450 text-[11px] font-semibold tracking-wide uppercase">
+                        {movie.duration}
+                      </span>
+                    </div>
+
+                    {/* Genre Tags (dot-separated) */}
+                    <p className="text-[10px] font-extrabold text-accent uppercase tracking-widest mt-3">
+                      {movie.genre.split(', ').join(' • ')}
+                    </p>
+
+                    {/* Short Summary (2 lines only) */}
+                    <p className="text-xs text-neutral-450 leading-relaxed mt-2.5 line-clamp-2">
+                      {movie.synopsis}
+                    </p>
+                  </div>
+
+                  {/* Showtimes & Booking Button */}
+                  <div className="mt-3 pt-3 border-t border-white/5 flex flex-col gap-3.5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[9px] font-black text-neutral-500 uppercase tracking-widest">Show Timings</p>
+                      <span className="text-[9px] text-neutral-500 font-bold uppercase tracking-widest">Inox Multiplex</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {movie.showTimings.slice(0, 3).map((time) => (
+                        <button
+                          key={time}
+                          type="button"
+                          onClick={() => handleShowTimeClick(movie, time)}
+                          className="bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/50 text-neutral-300 hover:text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all duration-305 cursor-pointer"
+                        >
+                          {time}
+                        </button>
+                      ))}
+                    </div>
+                    
+                    {/* Book Tickets Button */}
+                    <button
+                      onClick={() => handleBookClick(movie)}
+                      className="w-full bg-gradient-to-r from-primary to-secondary hover:brightness-110 text-white font-black text-[11px] uppercase tracking-widest py-3 rounded-xl shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                      <Play className="w-3.5 h-3.5 fill-white" />
+                      Book Tickets
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>
