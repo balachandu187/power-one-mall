@@ -40,7 +40,7 @@ export default function Home() {
   
   // Layer 1: Background image zooms and slides slowly
   const heroBgY = useTransform(scrollY, [0, 800], [0, 240]);
-  const heroBgScale = useTransform(scrollY, [0, 800], [1, 1.15]);
+  const heroBgScale = useTransform(scrollY, [0, 800], [1, 1.05]);
   
   // Layer 2: Mid-ground silhouette/tint translates faster for depth illusion
   const heroMidY = useTransform(scrollY, [0, 800], [0, 120]);
@@ -179,7 +179,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="relative w-full max-w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-black -mt-[72px]"
+        className="relative w-full max-w-full h-[65vh] min-h-[480px] sm:h-screen sm:min-h-[600px] flex items-center justify-center overflow-hidden bg-black -mt-[72px]"
       >
         {/* ── LAYER 1: Power One Mall night image — parallax + cinematic zoom ── */}
         <motion.div
@@ -195,7 +195,7 @@ export default function Home() {
               priority
               sizes="100vw"
               quality={95}
-              className="object-cover object-[center_15%]"
+              className="object-cover object-top"
               suppressHydrationWarning
             />
           </div>
