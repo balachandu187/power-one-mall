@@ -121,7 +121,7 @@ export default function MoviesPage() {
         </div>
 
         {/* Movie Card Grid / Mobile Carousel */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory pb-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 overflow-visible no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 relative z-10">
+        <div className="flex overflow-x-auto snap-x snap-mandatory pb-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:overflow-visible no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 relative z-10">
           {MOVIES_DATA.map((movie) => (
             <motion.div
               key={movie.id}

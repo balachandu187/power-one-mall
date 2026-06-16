@@ -17,7 +17,7 @@ export default function Toast({ isVisible, message, onClose }: ToastProps) {
           initial={{ opacity: 0, y: 50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl glass border-emerald-500/20 max-w-sm"
+          className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl glass border-emerald-500/20 md:max-w-sm"
         >
           <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
           <p className="text-sm font-medium text-neutral-800 dark:text-neutral-100">{message}</p>
