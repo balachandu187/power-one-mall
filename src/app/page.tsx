@@ -173,21 +173,21 @@ export default function Home() {
   const titleLetters = "POWER ONE MALL".split("");
 
   return (
-    <div className="flex flex-col gap-20">
+    <div className="flex flex-col gap-20 overflow-x-hidden w-full max-w-full">
       {/* 1. CINEMATIC HERO SECTION */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-black -mt-[72px]"
+        className="relative w-full max-w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-black -mt-[72px]"
       >
         {/* ── LAYER 1: Power One Mall night image — parallax + cinematic zoom ── */}
         <motion.div
           style={{ y: useParallax ? heroBgY : 0, scale: useParallax ? heroBgScale : 1 }}
-          className="absolute inset-0 z-0 origin-center"
+          className="absolute inset-y-0 left-0 right-0 w-full z-0 origin-center"
         >
           {/* Cinematic slow zoom-in on load via CSS animation */}
-          <div className="absolute inset-0 animate-[hero-zoom_8s_ease-out_forwards]">
+          <div className="absolute inset-y-0 left-0 right-0 w-full animate-[hero-zoom_8s_ease-out_forwards]">
             <Image
               src="/hero-bg.jpg"
               alt="Power One Mall Exterior Night Facade"
@@ -201,10 +201,10 @@ export default function Home() {
           </div>
 
           {/* ── LAYER 2: 60% dark overlay ── */}
-          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-y-0 left-0 right-0 w-full bg-black/60" />
 
           {/* Gradient polish — darkens top (for nav) and bottom (for section transition) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
+          <div className="absolute inset-y-0 left-0 right-0 w-full bg-gradient-to-b from-black/50 via-transparent to-black/70" />
         </motion.div>
 
         {/* ── LAYER 2b: Ambient glow — mimics the real building sign lights ── */}
@@ -220,15 +220,15 @@ export default function Home() {
         {/* ── LAYER 2c: Mid-ground depth gradient ── */}
         <motion.div
           style={{ y: useParallax ? heroMidY : 0 }}
-          className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-t from-black/80 via-transparent to-transparent"
+          className="absolute inset-y-0 left-0 right-0 w-full z-[2] pointer-events-none bg-gradient-to-t from-black/80 via-transparent to-transparent"
         />
 
         {/* ── LAYER 3: Floating Particles — client-only (no SSR mismatch) ── */}
         <HeroParticles />
 
         {/* ── LAYER 3b: Ambient Light Streaks ── */}
-        <div className="absolute inset-0 z-[3] pointer-events-none opacity-[0.12] bg-[linear-gradient(105deg,transparent_40%,rgba(252,191,73,0.25)_45%,rgba(252,191,73,0.25)_55%,transparent_60%)] bg-[length:200%_100%] animate-[gradient-shift_14s_infinite_linear]" />
-        <div className="absolute inset-0 z-[3] pointer-events-none opacity-[0.07] bg-[linear-gradient(75deg,transparent_30%,rgba(214,40,40,0.18)_40%,rgba(247,127,0,0.15)_50%,transparent_60%)] bg-[length:200%_100%] animate-[gradient-shift_20s_5s_infinite_linear]" />
+        <div className="absolute inset-y-0 left-0 right-0 w-full z-[3] pointer-events-none opacity-[0.12] bg-[linear-gradient(105deg,transparent_40%,rgba(252,191,73,0.25)_45%,rgba(252,191,73,0.25)_55%,transparent_60%)] bg-[length:200%_100%] animate-[gradient-shift_14s_infinite_linear]" />
+        <div className="absolute inset-y-0 left-0 right-0 w-full z-[3] pointer-events-none opacity-[0.07] bg-[linear-gradient(75deg,transparent_30%,rgba(214,40,40,0.18)_40%,rgba(247,127,0,0.15)_50%,transparent_60%)] bg-[length:200%_100%] animate-[gradient-shift_20s_5s_infinite_linear]" />
 
         {/* ── LAYER 4: Hero Content ── */}
         <motion.div

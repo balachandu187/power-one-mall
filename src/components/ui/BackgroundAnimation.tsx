@@ -125,12 +125,12 @@ export default function BackgroundAnimation() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="fixed inset-y-0 left-0 right-0 w-full max-w-full pointer-events-none z-0 overflow-hidden">
       {/* Canvas for background animations */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <canvas ref={canvasRef} className="absolute inset-y-0 left-0 right-0 w-full h-full" />
       
       {/* Luxury Subtle Noise Texture Overlay */}
-      <div className="absolute inset-0 opacity-[0.012] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] dark:opacity-[0.015] pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 right-0 w-full opacity-[0.012] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] dark:opacity-[0.015] pointer-events-none" />
     </div>
   );
 }

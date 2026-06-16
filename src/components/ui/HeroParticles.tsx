@@ -49,7 +49,7 @@ export default function HeroParticles() {
   if (particles.length === 0) return null;
 
   return (
-    <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+    <div className="absolute inset-y-0 left-0 right-0 w-full z-[2] pointer-events-none overflow-hidden">
       {particles.map((p) => (
         <span
           key={p.id}
