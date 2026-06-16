@@ -121,7 +121,7 @@ export default function MoviesPage() {
         </div>
 
         {/* Movie Card Grid / Mobile Carousel */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory pb-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:overflow-visible no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 relative z-10">
+        <div className="flex overflow-x-auto snap-x snap-mandatory pt-4 pb-8 -mt-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:overflow-visible no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 relative z-10">
           {MOVIES_DATA.map((movie) => (
             <motion.div
               key={movie.id}
@@ -139,7 +139,7 @@ export default function MoviesPage() {
                   boxShadow: '0 0 25px rgba(251, 191, 36, 0.25)',
                 }}
                 transition={{ type: 'spring', stiffness: 180, damping: 16 }}
-                className="relative h-72 sm:h-auto sm:w-2/5 overflow-hidden shrink-0 rounded-2xl border border-white/5"
+                className="relative h-56 sm:h-auto sm:w-2/5 overflow-hidden shrink-0 rounded-2xl border border-white/5"
               >
                 <Image
                   src={movie.poster}
@@ -171,7 +171,7 @@ export default function MoviesPage() {
                     <span>{movie.language}</span>
                   </div>
 
-                  <p className="text-xs text-neutral-450 leading-relaxed mt-4.5">
+                  <p className="text-xs text-neutral-450 leading-relaxed mt-3 sm:mt-4.5 line-clamp-2 sm:line-clamp-none">
                     {movie.synopsis}
                   </p>
                 </div>
@@ -257,9 +257,9 @@ export default function MoviesPage() {
               {/* Grid of Seats */}
               <div className="flex flex-col gap-2 max-w-sm mx-auto items-center">
                 {rows.map((rowLetter, rowIdx) => (
-                  <div key={rowLetter} className="flex items-center gap-2">
-                    <span className="text-xs font-bold w-4 text-neutral-400 text-right">{rowLetter}</span>
-                    <div className="flex gap-1.5">
+                  <div key={rowLetter} className="flex items-center gap-1.5 min-[360px]:gap-2">
+                    <span className="text-[10px] min-[360px]:text-xs font-bold w-3 min-[360px]:w-4 text-neutral-400 text-right">{rowLetter}</span>
+                    <div className="flex gap-1 min-[360px]:gap-1.5">
                       {[...Array(seatsPerRow)].map((_, seatIdx) => {
                         const seatNumber = rowIdx * seatsPerRow + seatIdx;
                         const isSelected = selectedSeats.includes(seatNumber);
@@ -271,7 +271,7 @@ export default function MoviesPage() {
                             key={seatIdx}
                             disabled={isReserved}
                             onClick={() => handleSeatClick(seatNumber)}
-                            className={`w-7.5 h-7.5 rounded-md flex items-center justify-center text-[10px] font-bold transition-all ${
+                            className={`w-6 h-6 min-[360px]:w-7.5 min-[360px]:h-7.5 rounded-md flex items-center justify-center text-[8px] min-[360px]:text-[10px] font-bold transition-all ${
                               isReserved
                                 ? 'bg-neutral-300 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-650 cursor-not-allowed opacity-50'
                                 : isSelected
