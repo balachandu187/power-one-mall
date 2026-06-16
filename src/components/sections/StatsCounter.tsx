@@ -38,9 +38,9 @@ function StatCounterItem({ end, suffix = '', label, duration = 2 }: StatItemProp
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-      className="flex flex-col items-center text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10"
+      className="flex flex-col items-center text-center p-3 min-[360px]:p-4 sm:p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10"
     >
-      <span className="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">
+      <span className="text-2xl min-[360px]:text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">
         {count.toLocaleString()}{suffix}
       </span>
       <span className="text-xs sm:text-sm font-bold tracking-widest text-neutral-400 uppercase mt-2">{label}</span>

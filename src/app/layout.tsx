@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
+    <html lang="en" className="h-full antialiased overflow-x-hidden" suppressHydrationWarning>
       <head>
         <meta name="darkreader-lock" content="true" />
         <Script
@@ -86,7 +86,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body suppressHydrationWarning className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-300 relative">
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-300 relative overflow-x-hidden max-w-full">
         <LoadingScreen />
         <SmoothScroll>
           <BackgroundAnimation />
@@ -94,7 +94,7 @@ export default function RootLayout({
           <CursorGlow />
           <Navbar />
           {/* Padding top to push layout below fixed header */}
-          <main className="flex-grow pt-[72px] relative z-10">
+          <main className="flex-grow pt-[72px] relative z-10 overflow-x-hidden">
             <PageTransition>{children}</PageTransition>
           </main>
           <Footer />

@@ -63,6 +63,18 @@ export default function Navbar() {
     setSearchQuery('');
   }, [pathname]);
 
+  // Disable body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Directory', href: '/directory' },
@@ -87,11 +99,11 @@ export default function Navbar() {
             : 'bg-transparent py-5 border-b border-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 min-[360px]:px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex flex-col group">
-              <span className="text-xl sm:text-2xl font-black tracking-widest text-primary uppercase transition-transform group-hover:scale-105 duration-200">
+              <span className="text-lg min-[360px]:text-xl sm:text-2xl font-black tracking-widest text-primary uppercase transition-transform group-hover:scale-105 duration-200">
                 Power <span className="text-secondary">One</span> Mall
               </span>
               <span className="text-[10px] tracking-[0.25em] font-semibold text-red-300/70 uppercase -mt-1 pl-0.5">
@@ -100,8 +112,8 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop/Tablet Navigation */}
-            <div className="hidden md:flex items-center gap-3 lg:gap-6">
-              <div className="flex items-center gap-1 lg:gap-1.5 xl:gap-4">
+            <div className="hidden md:flex items-center gap-1.5 lg:gap-6">
+              <div className="flex items-center gap-0.5 lg:gap-1.5 xl:gap-4">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
@@ -140,7 +152,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Header Buttons */}
-            <div className="flex items-center gap-2 md:hidden">
+            <div className="flex items-center gap-0.5 min-[350px]:gap-1 sm:gap-2 md:hidden">
               <button
                 onClick={handleSearchClick}
                 className="p-2 text-neutral-200 hover:bg-red-900/50 rounded-full"
@@ -162,8 +174,8 @@ export default function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         {isOpen && (
-          <div className="md:hidden fixed inset-0 top-[60px] z-30 bg-neutral-900/40 backdrop-blur-md">
-            <div className="glass h-[calc(100vh-60px)] w-3/4 max-w-sm ml-auto flex flex-col justify-between py-6 px-6 shadow-2xl border-l border-white/10">
+          <div className="md:hidden fixed inset-0 z-30 bg-neutral-900/40 backdrop-blur-md pt-[60px] overflow-hidden">
+            <div className="glass h-full w-3/4 max-w-sm ml-auto flex flex-col justify-between py-6 px-6 shadow-2xl border-l border-white/10 overflow-y-auto">
               <div className="flex flex-col gap-3">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;

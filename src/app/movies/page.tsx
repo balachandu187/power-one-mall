@@ -67,7 +67,7 @@ export default function MoviesPage() {
   };
 
   return (
-    <div className="cinema-dark min-h-screen py-16 transition-colors duration-300">
+    <div className="cinema-dark min-h-screen py-16 transition-colors duration-300 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Cinema Banner Hero with spotlight tracking */}
         <motion.div
