@@ -1,0 +1,39 @@
+; Power One Mall Website DNS Zone File Template
+; Domain: poweronemall.com
+; TTL: 3600 (1 hour)
+
+$TTL 3600
+@       IN      SOA     ns1.vercel-dns.com. hostmaster.poweronemall.com. (
+                        2026062001 ; Serial
+                        7200       ; Refresh (2 hours)
+                        3600       ; Retry (1 hour)
+                        1209600    ; Expire (2 weeks)
+                        3600       ; Minimum TTL (1 hour)
+)
+
+; Nameservers (Vercel Managed)
+@       IN      NS      ns1.vercel-dns.com.
+@       IN      NS      ns2.vercel-dns.com.
+
+; Mail Exchange (MX) Records (Google Workspace example)
+@       IN      MX      1    ASPMX.L.GOOGLE.COM.
+@       IN      MX      5    ALT1.ASPMX.L.GOOGLE.COM.
+@       IN      MX      5    ALT2.ASPMX.L.GOOGLE.COM.
+@       IN      MX      10   ALT3.ASPMX.L.GOOGLE.COM.
+@       IN      MX      10   ALT4.ASPMX.L.GOOGLE.COM.
+
+; A Records (Apex Domain pointing to Vercel IP)
+@       IN      A       76.76.21.21
+
+; CNAME Records (Subdomains)
+www     IN      CNAME   cname.vercel-dns.com.
+assets  IN      CNAME   cname.vercel-dns.com.
+
+; TXT Records (Domain Verification & Security)
+; Vercel Verification (Replace with actual code from Vercel)
+_vercel IN      TXT     "vc-domain-verify=poweronemall.com-xxxxxx"
+
+; Email Security (SPF, DKIM, DMARC)
+@       IN      TXT     "v=spf1 include:_spf.google.com ~all"
+google._domainkey IN TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0y..."
+_dmarc  IN      TXT     "v=DMARC1; p=reject; pct=100; rua=mailto:dmarc-reports@poweronemall.com"

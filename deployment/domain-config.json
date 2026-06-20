@@ -1,0 +1,29 @@
+{
+  "domain": "poweronemall.com",
+  "registrar": "GoDaddy",
+  "registration_date": "2026-06-15",
+  "expiry_date": "2027-06-15",
+  "auto_renew": true,
+  "registrar_lock": true,
+  "nameservers": [
+    "ns1.vercel-dns.com",
+    "ns2.vercel-dns.com"
+  ],
+  "ssl_certificate": {
+    "provider": "Let's Encrypt (via Vercel)",
+    "type": "SNI Wildcard",
+    "status": "Active / Auto-Managed"
+  },
+  "subdomains": [
+    {
+      "subdomain": "www.poweronemall.com",
+      "target": "Vercel Deployment",
+      "redirect_to_apex": false
+    },
+    {
+      "subdomain": "poweronemall.com",
+      "target": "Vercel Deployment",
+      "redirect_to_apex": false
+    }
+  ]
+}

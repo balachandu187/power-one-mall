@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "backup:daily": "powershell -ExecutionPolicy Bypass -File ./scripts/backup-manager.ps1 -Type daily",
+    "backup:weekly": "powershell -ExecutionPolicy Bypass -File ./scripts/backup-manager.ps1 -Type weekly",
+    "backup:archive": "powershell -ExecutionPolicy Bypass -File ./scripts/backup-manager.ps1 -Type archive",
+    "backup:restore": "powershell -ExecutionPolicy Bypass -File ./scripts/restore-backup.ps1",
+    "rollback": "powershell -ExecutionPolicy Bypass -File ./scripts/rollback-git.ps1"
   },
   "dependencies": {
     "framer-motion": "^12.40.0",
