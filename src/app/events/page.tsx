@@ -36,6 +36,9 @@ export default function EventsPage() {
     const canvas = confettiRef.current;
     if (!canvas) return;
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -54,7 +57,8 @@ export default function EventsPage() {
       rotationSpeed: number;
     }> = [];
 
-    const maxPieces = 30;
+    // Reduce particles by 70% (30 -> 9)
+    const maxPieces = 9;
 
     for (let i = 0; i < maxPieces; i++) {
       pieces.push({
@@ -70,8 +74,24 @@ export default function EventsPage() {
     }
 
     let animationFrameId: number;
+    let isIntersecting = true;
+    let isRunning = true;
+
+    // Debounced resize
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (!canvas) return;
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }, 150);
+    };
+    window.addEventListener('resize', handleResize);
 
     const animate = () => {
+      if (!isIntersecting || !isRunning) return;
+
       ctx.clearRect(0, 0, width, height);
 
       pieces.forEach((p) => {
@@ -95,19 +115,38 @@ export default function EventsPage() {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    // Intersection Observer to pause when offscreen
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const wasIntersecting = isIntersecting;
+          isIntersecting = entry.isIntersecting;
+          if (isIntersecting && !wasIntersecting) {
+            animate();
+          }
+        });
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(canvas);
 
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+    // Tab visibility listener
+    const handleVisibility = () => {
+      isRunning = !document.hidden;
+      if (isRunning && isIntersecting) {
+        animate();
+      }
     };
+    document.addEventListener('visibilitychange', handleVisibility);
 
-    window.addEventListener('resize', handleResize);
+    animate();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      observer.disconnect();
+      clearTimeout(resizeTimeout);
     };
   }, []);
 

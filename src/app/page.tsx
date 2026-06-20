@@ -332,7 +332,7 @@ export default function Home() {
 
 
       {/* 2. FEATURES SECTION (STAGGERED AND TILT) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10 content-visibility-auto">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="block text-xs font-black uppercase tracking-[0.3em] text-primary">The Ultimate Destination</span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight mt-2">All Under One Roof</h2>
@@ -375,7 +375,7 @@ export default function Home() {
       </section>
 
       {/* 3. FEATURED STORES SECTION */}
-      <section className="bg-neutral-50 dark:bg-neutral-900/30 py-20 border-y border-neutral-200/50 dark:border-neutral-800/50 relative z-10">
+      <section className="bg-neutral-50 dark:bg-neutral-900/30 py-20 border-y border-neutral-200/50 dark:border-neutral-800/50 relative z-10 content-visibility-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-end justify-between gap-6 mb-16">
             <div>
@@ -452,7 +452,7 @@ export default function Home() {
       </section>
 
       {/* 4. SPECIAL OFFERS SECTION (TILT OFFERS CARDS) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10 content-visibility-auto">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="block text-xs font-black uppercase tracking-[0.3em] text-secondary">Exclusive Discounts</span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight mt-2">Special Offers &amp; Sales</h2>
@@ -522,7 +522,7 @@ export default function Home() {
       <StatsCounter />
 
       {/* 6. UPCOMING EVENTS SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10 content-visibility-auto">
         <div className="flex flex-col sm:flex-row items-end justify-between gap-6 mb-16">
           <div>
             <span className="block text-xs font-black uppercase tracking-[0.3em] text-primary">Entertainment Hub</span>
@@ -596,7 +596,7 @@ export default function Home() {
       </section>
 
       {/* 7. TESTIMONIALS SECTION */}
-      <section className="bg-neutral-50 dark:bg-neutral-900/30 py-20 border-y border-neutral-200/50 dark:border-neutral-800/50 relative z-10">
+      <section className="bg-neutral-50 dark:bg-neutral-900/30 py-20 border-y border-neutral-200/50 dark:border-neutral-800/50 relative z-10 content-visibility-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="block text-xs font-black uppercase tracking-[0.3em] text-primary">Visitor Experiences</span>
@@ -634,7 +634,7 @@ export default function Home() {
       </section>
 
       {/* 8. LOCATION & INFO SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 mb-10 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 mb-10 relative z-10 content-visibility-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
           {/* Contact details Card */}
           <motion.div

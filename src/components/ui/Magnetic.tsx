@@ -12,6 +12,8 @@ interface MagneticProps {
 export default function Magnetic({ children, range = 50, actionStrength = 0.35 }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
+  const [isInteractive, setIsInteractive] = useState(false);
+  const [activeTracking, setActiveTracking] = useState(false);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -21,6 +23,20 @@ export default function Magnetic({ children, range = 50, actionStrength = 0.35 }
   const springY = useSpring(y, springConfig);
 
   useEffect(() => {
+    // Disable magnetic effect on touch devices or small viewports
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    const isSmallScreen = window.innerWidth < 1024;
+    
+    if (isTouchDevice || isSmallScreen) {
+      setIsInteractive(false);
+    } else {
+      setIsInteractive(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isInteractive || !activeTracking) return;
+
     const element = ref.current;
     if (!element) return;
 
@@ -34,9 +50,9 @@ export default function Magnetic({ children, range = 50, actionStrength = 0.35 }
       const distanceY = clientY - elementCenterY;
       const distance = Math.hypot(distanceX, distanceY);
 
+      // Within range: apply magnetic pull
       if (distance < range) {
         setHovered(true);
-        // Magnetic pull
         x.set(distanceX * actionStrength);
         y.set(distanceY * actionStrength);
       } else {
@@ -46,24 +62,34 @@ export default function Magnetic({ children, range = 50, actionStrength = 0.35 }
       }
     };
 
-    const handleMouseLeave = () => {
-      setHovered(false);
-      x.set(0);
-      y.set(0);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    element.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      element.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [x, y, range, actionStrength]);
+  }, [isInteractive, activeTracking, x, y, range, actionStrength]);
+
+  // If not on interactive desktop device, bypass animations completely
+  if (!isInteractive) {
+    return <div className="inline-block">{children}</div>;
+  }
+
+  const handleMouseEnter = () => {
+    setActiveTracking(true);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveTracking(false);
+    setHovered(false);
+    x.set(0);
+    y.set(0);
+  };
 
   return (
     <motion.div
       ref={ref}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       style={{
         x: springX,
         y: springY,

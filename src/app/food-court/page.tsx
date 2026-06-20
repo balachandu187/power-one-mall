@@ -57,6 +57,9 @@ function FoodCourtContent() {
     const canvas = steamCanvasRef.current;
     if (!canvas) return;
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -74,8 +77,11 @@ function FoodCourtContent() {
       fadeSpeed: number;
     }> = [];
 
+    // Reduce particles by 70% (25 -> 8)
+    const maxParticles = 8;
+
     const addParticle = () => {
-      if (steamParticles.length < 25) {
+      if (steamParticles.length < maxParticles) {
         steamParticles.push({
           x: Math.random() * width,
           y: height + Math.random() * 20,
@@ -88,7 +94,24 @@ function FoodCourtContent() {
       }
     };
 
+    let isIntersecting = true;
+    let isRunning = true;
+
+    // Debounced resize
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (!canvas) return;
+        width = canvas.width = canvas.parentElement?.clientWidth || window.innerWidth;
+        height = canvas.height = canvas.parentElement?.clientHeight || 400;
+      }, 150);
+    };
+    window.addEventListener('resize', handleResize);
+
     const animate = () => {
+      if (!isIntersecting || !isRunning) return;
+
       ctx.clearRect(0, 0, width, height);
       addParticle();
 
@@ -114,18 +137,38 @@ function FoodCourtContent() {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    // Intersection Observer to pause when offscreen
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const wasIntersecting = isIntersecting;
+          isIntersecting = entry.isIntersecting;
+          if (isIntersecting && !wasIntersecting) {
+            animate();
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
 
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = canvas.parentElement?.clientWidth || window.innerWidth;
-      height = canvas.height = canvas.parentElement?.clientHeight || 400;
+    // Tab visibility listener
+    const handleVisibility = () => {
+      isRunning = !document.hidden;
+      if (isRunning && isIntersecting) {
+        animate();
+      }
     };
-    window.addEventListener('resize', handleResize);
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    animate();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      observer.disconnect();
+      clearTimeout(resizeTimeout);
     };
   }, []);
 

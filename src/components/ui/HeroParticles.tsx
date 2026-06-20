@@ -33,7 +33,7 @@ export default function HeroParticles() {
       return;
     }
     const isMobile = window.innerWidth < 768;
-    const count = isMobile ? 10 : 28;
+    const count = isMobile ? 3 : 8;
     const generated: Particle[] = Array.from({ length: count }, (_, i) => ({
       id: i,
       width: `${Math.random() * 3 + 1}px`,

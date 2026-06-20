@@ -1,11 +1,27 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function BackgroundAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
+    // 1. Check mobile/tablet and reduced motion - disable canvas to save CPU/GPU
+    const isMobile = window.innerWidth < 768;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (isMobile || prefersReducedMotion) {
+      setShouldRender(false);
+      return;
+    }
+    
+    setShouldRender(true);
+  }, []);
+
+  useEffect(() => {
+    if (!shouldRender) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -16,6 +32,7 @@ export default function BackgroundAnimation() {
     let height = (canvas.height = window.innerHeight);
 
     let animationFrameId: number;
+    let isRunning = true;
 
     // Mouse positions for parallax interaction
     const mouse = { x: width / 2, y: height / 2, targetX: width / 2, targetY: height / 2 };
@@ -24,24 +41,27 @@ export default function BackgroundAnimation() {
       mouse.targetX = e.clientX;
       mouse.targetY = e.clientY;
     };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    window.addEventListener('mousemove', handleMouseMove);
-
+    // Debounced resize
+    let resizeTimeout: NodeJS.Timeout;
     const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (!canvas) return;
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }, 150);
     };
     window.addEventListener('resize', handleResize);
 
-    // Dynamic Blobs config
+    // Dynamic Blobs config - reduced count from 3 to 2 for GPU optimization
     const blobs = [
-      { x: width * 0.25, y: height * 0.2, targetX: width * 0.25, targetY: height * 0.2, size: 300, color: 'rgba(214, 40, 40, 0.045)', speed: 0.005 },
-      { x: width * 0.75, y: height * 0.35, targetX: width * 0.75, targetY: height * 0.35, size: 400, color: 'rgba(247, 127, 0, 0.035)', speed: 0.004 },
-      { x: width * 0.5, y: height * 0.75, targetX: width * 0.5, targetY: height * 0.75, size: 350, color: 'rgba(252, 191, 73, 0.035)', speed: 0.006 },
+      { x: width * 0.25, y: height * 0.2, targetX: width * 0.25, targetY: height * 0.2, size: 250, color: 'rgba(214, 40, 40, 0.04)', speed: 0.005 },
+      { x: width * 0.75, y: height * 0.35, targetX: width * 0.75, targetY: height * 0.35, size: 320, color: 'rgba(247, 127, 0, 0.03)', speed: 0.004 }
     ];
 
-    // Subtle floating glowing dots
+    // Floating dots - reduced count by 70% (30 -> 9)
     const dots: Array<{
       x: number;
       y: number;
@@ -52,13 +72,13 @@ export default function BackgroundAnimation() {
       radius: number;
     }> = [];
 
-    const numDots = 30;
+    const numDots = 9;
     for (let i = 0; i < numDots; i++) {
       dots.push({
         x: Math.random() * width,
         y: Math.random() * height,
         size: Math.random() * 2 + 0.5,
-        opacity: Math.random() * 0.4 + 0.1,
+        opacity: Math.random() * 0.3 + 0.1,
         angle: Math.random() * Math.PI * 2,
         speed: Math.random() * 0.02 + 0.005,
         radius: Math.random() * 25 + 5,
@@ -66,23 +86,23 @@ export default function BackgroundAnimation() {
     }
 
     const animate = () => {
+      if (!isRunning) return;
+
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Interpolate mouse positions for smooth parallax lagging
+      // Interpolate mouse positions for smooth parallax lagging
       mouse.x += (mouse.targetX - mouse.x) * 0.05;
       mouse.y += (mouse.targetY - mouse.y) * 0.05;
 
       const parallaxX = (mouse.x - width / 2) * 0.04;
       const parallaxY = (mouse.y - height / 2) * 0.04;
 
-      // 2. Render & move gradient blobs
+      // Render & move gradient blobs
       blobs.forEach((blob) => {
-        // Continuous organic floating motion
         const time = Date.now() * blob.speed * 0.1;
-        const offsetX = Math.sin(time) * 40;
-        const offsetY = Math.cos(time) * 40;
+        const offsetX = Math.sin(time) * 35;
+        const offsetY = Math.cos(time) * 35;
 
-        // Apply mouse parallax drift
         const finalX = blob.x + offsetX + parallaxX;
         const finalY = blob.y + offsetY + parallaxY;
 
@@ -96,9 +116,8 @@ export default function BackgroundAnimation() {
         ctx.fill();
       });
 
-      // 3. Render floating dots
+      // Render floating dots
       dots.forEach((dot) => {
-        // Floating movement
         dot.angle += dot.speed;
         const driftX = Math.cos(dot.angle) * dot.radius * 0.08;
         const driftY = Math.sin(dot.angle) * dot.radius * 0.08;
@@ -115,22 +134,35 @@ export default function BackgroundAnimation() {
       animationFrameId = requestAnimationFrame(animate);
     };
 
+    // Tab visibility handling to pause loop when browser tab is inactive
+    const handleVisibility = () => {
+      isRunning = !document.hidden;
+      if (isRunning) {
+        animate();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
     animate();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      clearTimeout(resizeTimeout);
     };
-  }, []);
+  }, [shouldRender]);
 
   return (
-    <div className="fixed inset-y-0 left-0 right-0 w-full max-w-full pointer-events-none z-0 overflow-hidden">
-      {/* Canvas for background animations */}
-      <canvas ref={canvasRef} className="absolute inset-y-0 left-0 right-0 w-full h-full" />
+    <div className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden bg-background">
+      {/* Canvas for background animations - conditionally rendered based on platform checks */}
+      {shouldRender && (
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      )}
       
       {/* Luxury Subtle Noise Texture Overlay */}
-      <div className="absolute inset-y-0 left-0 right-0 w-full opacity-[0.012] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] dark:opacity-[0.015] pointer-events-none" />
+      <div className="absolute inset-0 w-full h-full opacity-[0.01] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
     </div>
   );
 }

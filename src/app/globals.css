@@ -61,15 +61,15 @@ body {
 /* Glassmorphism helpers */
 .glass {
   background: var(--card-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--card-border);
 }
 
 .glass-nav {
   background: var(--nav-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--card-border);
 }
 
@@ -90,8 +90,8 @@ body {
 
 .cinema-card {
   background: rgba(14, 2, 2, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(214, 40, 40, 0.15);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(214, 40, 40, 0.05);
   border-radius: 22px;
@@ -103,6 +103,12 @@ body {
   box-shadow: 
     0 20px 45px -15px rgba(0, 0, 0, 0.8),
     0 0 35px rgba(214, 40, 40, 0.25);
+}
+
+/* Defer layout and paint of offscreen elements */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 400px;
 }
 
 /* Hero ambient light streak animation */
