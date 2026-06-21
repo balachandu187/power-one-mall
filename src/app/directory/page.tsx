@@ -235,54 +235,59 @@ function DirectoryContent() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 relative z-10"
         >
           {filteredStores.map((store) => (
-            <TiltCard key={store.id} className="h-full">
-              <motion.div
-                variants={itemVariants}
-                onClick={() => setSelectedStore(store)}
-                className="group flex flex-col h-full justify-between overflow-hidden rounded-3xl glass border border-neutral-200/60 dark:border-neutral-800/80 shadow-md hover:shadow-xl hover:border-primary/45 dark:hover:border-primary/45 transition-all duration-300 cursor-pointer relative"
-              >
-                <div>
-                  {/* Store image */}
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <Image
-                      src={store.image}
-                      alt={store.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-2.5 py-1.5 rounded-md uppercase tracking-wider">
-                      {store.category}
+            <motion.div
+              key={store.id}
+              variants={itemVariants}
+              className="h-full"
+            >
+              <TiltCard className="h-full">
+                <div
+                  onClick={() => setSelectedStore(store)}
+                  className="group flex flex-col h-full justify-between overflow-hidden rounded-3xl glass border border-neutral-200/60 dark:border-neutral-800/80 shadow-md hover:shadow-xl hover:border-primary/45 dark:hover:border-primary/45 transition-all duration-300 cursor-pointer relative"
+                >
+                  <div>
+                    {/* Store image */}
+                    <div className="relative h-48 w-full overflow-hidden">
+                      <Image
+                        src={store.image}
+                        alt={store.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-2.5 py-1.5 rounded-md uppercase tracking-wider">
+                        {store.category}
+                      </div>
+                    </div>
+
+                    {/* Info */}
+                    <div className="p-6">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-xl font-bold text-neutral-800 dark:text-neutral-100 group-hover:text-primary transition-colors">
+                          {store.name}
+                        </h3>
+                      </div>
+                      <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
+                        {store.floor}
+                      </span>
+                      <p className="text-xs text-muted leading-relaxed mt-3.5 line-clamp-2">
+                        {store.description}
+                      </p>
                     </div>
                   </div>
 
-                  {/* Info */}
-                  <div className="p-6">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-xl font-bold text-neutral-800 dark:text-neutral-100 group-hover:text-primary transition-colors">
-                        {store.name}
-                      </h3>
-                    </div>
-                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
-                      {store.floor}
+                  {/* Action bottom */}
+                  <div className="border-t border-neutral-250 dark:border-neutral-800 p-6 flex items-center justify-between">
+                    <span className="text-[10px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-1 rounded-md uppercase tracking-wider">
+                      {store.openStatus}
                     </span>
-                    <p className="text-xs text-muted leading-relaxed mt-3.5 line-clamp-2">
-                      {store.description}
-                    </p>
+                    <span className="text-xs font-bold text-neutral-700 dark:text-neutral-300 group-hover:text-primary transition-colors flex items-center gap-1.5">
+                      View Details &rarr;
+                    </span>
                   </div>
                 </div>
-
-                {/* Action bottom */}
-                <div className="border-t border-neutral-250 dark:border-neutral-800 p-6 flex items-center justify-between">
-                  <span className="text-[10px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-1 rounded-md uppercase tracking-wider">
-                    {store.openStatus}
-                  </span>
-                  <span className="text-xs font-bold text-neutral-700 dark:text-neutral-300 group-hover:text-primary transition-colors flex items-center gap-1.5">
-                    View Details &rarr;
-                  </span>
-                </div>
-              </motion.div>
-            </TiltCard>
+              </TiltCard>
+            </motion.div>
           ))}
         </motion.div>
       )}
