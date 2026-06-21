@@ -137,95 +137,54 @@ export default function MoviesPage() {
               transition={{ type: 'spring', stiffness: 80, damping: 15 }}
               className="w-full h-full"
             >
-              <div className="group cinema-card overflow-hidden flex flex-col relative w-full h-[660px]">
-                {/* Poster Layer (Top - approx 60.6% height) */}
-                <div className="relative h-[400px] w-full overflow-hidden flex-shrink-0">
-                  <Image
-                    src={movie.poster}
-                    alt={movie.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-108 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                  />
-                  
-                  {/* Cinematic bottom gradient fade to details layer */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e0202] via-[#0e0202]/25 to-transparent opacity-95 pointer-events-none" />
+              <div
+                onClick={() => handleBookClick(movie)}
+                className="group cinema-card overflow-hidden relative w-full aspect-[2/3] cursor-pointer flex flex-col justify-end"
+              >
+                {/* Poster Image */}
+                <Image
+                  src={movie.poster}
+                  alt={movie.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
 
-                  {/* Brand / Logo Accent at top-left of Poster (matches reference) */}
-                  <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 pointer-events-none opacity-90">
-                    {/* Small round green & white dot */}
-                    <div className="w-4 h-4 rounded-full bg-emerald-500 border border-white/20 flex items-center justify-center shadow-md">
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                    </div>
-                    {/* Three red bars */}
-                    <div className="flex flex-col gap-1 pl-0.5">
-                      <div className="w-7 h-0.5 bg-red-650 shadow" />
-                      <div className="w-5 h-0.5 bg-red-650 shadow" />
-                      <div className="w-6 h-0.5 bg-red-650 shadow" />
-                    </div>
-                  </div>
+                {/* Dark Cinematic Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-transparent z-10 pointer-events-none" />
+
+                {/* Rating Badge floating in top right */}
+                <div className="absolute top-4 right-4 z-20 pointer-events-none">
+                  <span className="px-2.5 py-1 text-[10px] font-black border border-amber-400/35 text-amber-400 bg-black/75 backdrop-blur-sm rounded-md tracking-wider">
+                    {movie.rating}
+                  </span>
                 </div>
 
-                {/* Details Layer (Bottom - approx 39.4% height) */}
-                <div className="p-6 flex flex-col justify-between h-[260px] bg-[#0e0202]/95 border-t border-white/5 relative z-10 flex-grow">
-                  <div>
-                    {/* Movie Title */}
-                    <h3 className="text-xl font-extrabold tracking-tight text-white group-hover:text-secondary transition-colors duration-300 line-clamp-1">
-                      {movie.title}
-                    </h3>
-                    
-                    {/* Metadata Row: Rating Badge | Language | Duration */}
-                    <div className="flex items-center gap-2 mt-2">
-                      <span className="px-2 py-0.5 text-[10px] font-black border border-primary/30 text-primary bg-primary/10 rounded-md tracking-wider">
-                        {movie.rating}
-                      </span>
-                      <span className="text-neutral-400 text-[11px] font-semibold tracking-wide uppercase">
-                        {movie.language.split(', ')[0]}
-                      </span>
-                      <span className="text-neutral-600 text-xs font-bold">•</span>
-                      <span className="text-neutral-450 text-[11px] font-semibold tracking-wide uppercase">
-                        {movie.duration}
-                      </span>
-                    </div>
-
-                    {/* Genre Tags (dot-separated) */}
-                    <p className="text-[10px] font-extrabold text-accent uppercase tracking-widest mt-3">
-                      {movie.genre.split(', ').join(' • ')}
-                    </p>
-
-                    {/* Short Summary (2 lines only) */}
-                    <p className="text-xs text-neutral-450 leading-relaxed mt-2.5 line-clamp-2">
-                      {movie.synopsis}
-                    </p>
+                {/* Hover Action Overlay */}
+                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center justify-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white shadow-lg shadow-primary/30 transform scale-90 group-hover:scale-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <Play className="w-4 h-4 fill-white ml-0.5" />
                   </div>
+                  <span className="text-[11px] font-black uppercase tracking-widest text-accent">Book Tickets</span>
+                </div>
 
-                  {/* Showtimes & Booking Button */}
-                  <div className="mt-3 pt-3 border-t border-white/5 flex flex-col gap-3.5">
-                    <div className="flex items-center justify-between">
-                      <p className="text-[9px] font-black text-neutral-500 uppercase tracking-widest">Show Timings</p>
-                      <span className="text-[9px] text-neutral-500 font-bold uppercase tracking-widest">Inox Multiplex</span>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {movie.showTimings.slice(0, 3).map((time) => (
-                        <button
-                          key={time}
-                          type="button"
-                          onClick={() => handleShowTimeClick(movie, time)}
-                          className="bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/50 text-neutral-300 hover:text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all duration-305 cursor-pointer"
-                        >
-                          {time}
-                        </button>
-                      ))}
-                    </div>
-                    
-                    {/* Book Tickets Button */}
-                    <button
-                      onClick={() => handleBookClick(movie)}
-                      className="w-full bg-gradient-to-r from-primary to-secondary hover:brightness-110 text-white font-black text-[11px] uppercase tracking-widest py-3 rounded-xl shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                      <Play className="w-3.5 h-3.5 fill-white" />
-                      Book Tickets
-                    </button>
+                {/* Text Details Overlay at Bottom */}
+                <div className="p-6 relative z-20 flex flex-col gap-1 pointer-events-none">
+                  {/* Genre Tag */}
+                  <span className="text-[9px] font-extrabold text-accent uppercase tracking-widest">
+                    {movie.genre.split(', ')[0]}
+                  </span>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-extrabold tracking-tight text-white group-hover:text-accent transition-colors duration-300 line-clamp-1">
+                    {movie.title}
+                  </h3>
+
+                  {/* Metadata Row: Duration & Language */}
+                  <div className="flex items-center gap-2 text-[10px] text-neutral-400 font-bold tracking-wide uppercase mt-0.5">
+                    <span>{movie.duration}</span>
+                    <span className="text-neutral-600 font-normal">•</span>
+                    <span>{movie.language.split(', ')[0]}</span>
                   </div>
                 </div>
               </div>
